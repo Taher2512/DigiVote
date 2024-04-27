@@ -11,12 +11,14 @@
     "deploy": "next build && next export && npx thirdweb@latest upload out"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.3.6",
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "@thirdweb-dev/react": "^4",
     "@thirdweb-dev/sdk": "^4",
     "ethers": "^5",
     "firebase": "^10.11.1",
+    "framer-motion": "^11.1.7",
     "next": "^13",
     "react": "^18.2",
     "react-dom": "^18.2"

@@ -3,6 +3,7 @@ import { PolygonZkevmCardonaTestnet } from "@thirdweb-dev/chains";
 import "../styles/globals.css";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { NextUIProvider } from "@nextui-org/react";
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
 // You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
@@ -10,12 +11,14 @@ import { getAnalytics } from "firebase/analytics";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider
-      activeChain={PolygonZkevmCardonaTestnet}
-      clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
-    >
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+    <NextUIProvider>
+      <ThirdwebProvider
+        activeChain={PolygonZkevmCardonaTestnet}
+        clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+      >
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </NextUIProvider>
   );
 }
 
