@@ -1,6 +1,5 @@
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { PolygonZkevmTestnet } from "@thirdweb-dev/chains";
-import { Cardona } from "@thirdweb-dev/chains";
+import { PolygonZkevmCardonaTestnet } from "@thirdweb-dev/chains";
 import "../styles/globals.css";
 
 // This is the chain your dApp will work on.
@@ -11,7 +10,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   return (
     <ThirdwebProvider
-      activeChain={PolygonZkevmTestnet}
+      activeChain={PolygonZkevmCardonaTestnet}
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
     >
       <Component {...pageProps} />

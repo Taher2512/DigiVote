@@ -26,9 +26,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Image:", image);
-    console.log("UID:", uid);
-    console.log("Address:", address);
+
     // const formData = new FormData();
     // formData.append("image", image);
     // formData.append("uid", uid);
