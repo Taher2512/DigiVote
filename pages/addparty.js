@@ -5,6 +5,9 @@ import {getStorage,ref,uploadBytes,getDownloadURL} from 'firebase/storage'
 const FormRepeater = () => {
   const [fields, setFields] = useState([{ image: '', name: '' }]);
  const [image, setimage] = useState([])
+ const [login, setlogin] = useState(false)
+ const [email, setemail] = useState('')
+ const [password, setpassword] = useState('')
   const handleChange = (index, event) => {
     const values = [...fields];
     if (event.target.name === 'image') {
@@ -43,15 +46,27 @@ const submit=async()=>{
 
            })
          })
-        
-        
-      
-    
-}
+    }
+    const submitLogin=()=>{
+        if(email==='mustafachaiwala2003@gmail.com' && password=='123abc'){
+            setlogin(true)
+        }
+        else{
+            alert("Invalid Credentials")
+        }
+    }
   return (
     <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', minHeight: '100vh',backgroundColor:"#1e293b" ,flexDirection:"column"}}>
     <h1 style={{color:"white",fontSize:40,fontWeight:"bold"}}>Add Parties</h1>
-    <div style={{padding:50,backgroundColor:'white',borderRadius:20,gap:20,display:'flex',flexDirection:"column"}}>
+    {!login&&<div style={{padding:50,backgroundColor:'white',borderRadius:20,gap:20,display:'flex',flexDirection:"column",alignItems:"center"}}>
+       <h1 style={{fontWeight:"bold",fontSize:30}}>Login </h1>
+       <input style={{padding:10,marginBottom:20}} type="email" placeholder="Enter Email" value={email}  onChange={e=>setemail(e.target.value)}/>
+       <input style={{padding:10,marginBottom:20}} type="password" placeholder="Enter Password"  value={password} onChange={e=>setpassword(e.target.value)} />
+       <button  style={{width:"100%",backgroundColor:"#1e293b",padding:10,borderRadius:10,color:'white',fontWeight:'bold'}} type="button" onClick={submitLogin}>
+          Submit
+        </button>
+    </div>}
+    {login&&<div style={{padding:50,backgroundColor:'white',borderRadius:20,gap:20,display:'flex',flexDirection:"column"}}>
     <div style={{alignItems:"center",justifyContent:"center",display:'flex',flexDirection:"column",gap:10}} >
         {fields.map((field, index) => (
           <div style={{display:'flex',flexDirection:"row"}} key={index}>
@@ -89,7 +104,7 @@ const submit=async()=>{
         <button  style={{width:"100%",backgroundColor:"#1e293b",padding:10,borderRadius:10,color:'white',fontWeight:'bold'}} type="button" onClick={submit}>
           Submit
         </button>
-    </div>
+    </div>}
     
      
     </div>
