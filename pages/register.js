@@ -79,6 +79,9 @@ function Register() {
             imageUrl: url,
           };
           await addDoc(collection(db, "users"), data);
+          if (address) {
+            localStorage.setItem("walletAddress", address);
+          }
           setRegistered(true);
           setSubmitting(false);
         });
@@ -87,9 +90,9 @@ function Register() {
   };
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-slate-800">
+    <div className="h-full w-full flex justify-center items-center bg-slate-800">
       <div
-        className="flex flex-col justify-center items-center w-1/3"
+        className="flex flex-col justify-center items-center w-1/3 h-screen"
         // onSubmit={handleSubmit}
       >
         {!registered ? (
