@@ -1,13 +1,14 @@
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import React, { useState } from "react";
-
+import { app, db } from "../const/firebase/config";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import {getStorage,ref,uploadBytes,getDownloadURL} from 'firebase/storage'
 function Register() {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [uid, setUid] = useState("");
-
+ const storage = getStorage(app);
   const address = useAddress();
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -29,29 +30,37 @@ function Register() {
     console.log("Image:", image);
     console.log("UID:", uid);
     console.log("Address:", address);
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // formData.append("uid", uid);
-    // if (address) {
-    //   formData.append("walletAddress", address);
-    // }
-
-    // try {
-    //   const response = await fetch(
-    //     "https://your-backend-url.com/api/register",
-    //     {
-    //       method: "POST",
-    //       body: formData,
-    //     }
-    //   );
-    //   const data = await response.json();
-
-    //   console.log("Success:", data);
-    //   alert("Registration successful!");
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   alert("Registration failed!");
-    // }
+    const q = query(collection(db, "users"));
+    getDocs(q).then(async(querySnapshot) => {
+      let f=0
+      querySnapshot.forEach((doc) => {
+       if(doc.data().uid === uid){
+         f=1
+       }
+      });
+      if(f===1){
+        alert("User already exists")
+        return
+      }
+      else{
+        const storageRef = ref(storage, `images/${uid}`);
+        const d=await uploadBytes(storageRef, image);
+        console.log("Image uploaded successfully");
+        //how to get image url
+       //copilot tell me how to get image url
+       await getDownloadURL(d.ref).then(async(url) => {
+        let data={
+          uid:uid,
+          address:address,
+          verified:0,
+          imageUrl:url
+        }
+        await  addDoc(collection(db, "users"), data);
+        alert("User registered successfully");
+       })
+        
+      }
+    })
   };
 
   return (
