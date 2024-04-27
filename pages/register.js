@@ -1,9 +1,12 @@
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import React, { useState } from "react";
 
 function Register() {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [uid, setUid] = useState("");
+
+  const address = useAddress();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -23,26 +26,32 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("uid", uid);
+    console.log("Image:", image);
+    console.log("UID:", uid);
+    console.log("Address:", address);
+    // const formData = new FormData();
+    // formData.append("image", image);
+    // formData.append("uid", uid);
+    // if (address) {
+    //   formData.append("walletAddress", address);
+    // }
 
-    try {
-      const response = await fetch(
-        "https://your-backend-url.com/api/register",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const data = await response.json();
+    // try {
+    //   const response = await fetch(
+    //     "https://your-backend-url.com/api/register",
+    //     {
+    //       method: "POST",
+    //       body: formData,
+    //     }
+    //   );
+    //   const data = await response.json();
 
-      console.log("Success:", data);
-      alert("Registration successful!");
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Registration failed!");
-    }
+    //   console.log("Success:", data);
+    //   alert("Registration successful!");
+    // } catch (error) {
+    //   console.error("Error:", error);
+    //   alert("Registration failed!");
+    // }
   };
 
   return (
@@ -79,6 +88,15 @@ function Register() {
           placeholder="012-345-6789"
           className="w-full py-2 px-3 rounded-md outline-none"
         />
+        <h1 className="self-start text-base font-medium text-white mt-4 mb-2">
+          Connect Wallet:
+        </h1>
+        <ConnectWallet theme={"light"} style={{ width: "100%" }} />
+        {address && (
+          <p className="text-white mt-2 font-medium text-base">
+            Connected as: {address}
+          </p>
+        )}
         <button
           type="submit"
           className="w-full mt-4 py-2 px-3 bg-transparent text-white rounded-md border-2 hover:bg-slate-700"
