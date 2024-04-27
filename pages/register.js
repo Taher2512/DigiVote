@@ -167,7 +167,7 @@ function Register() {
           </>
         ) : (
           <Link href="/vote">
-            <button className="text-white text-2xl rounded-md px-4 py-3 focus:outline-none  gilroy-light bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800">
+            <button className="text-white text-2xl rounded-md px-4 py-3  gilroy-light bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800">
               Proceed To Voting {"-->"}
             </button>
           </Link>
