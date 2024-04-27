@@ -91,7 +91,7 @@ function Register() {
   return (
     <div className="h-screen w-screen flex justify-center items-center overflow-hidden ">
       <div
-        className="flex flex-col justify-center items-center w-1/3  border border-white border-4 rounded-xl p-8 bg-purple-700/15 backdrop-blur-xl"
+        className="flex flex-col justify-center items-center w-1/3  border-white border-4 rounded-xl p-8 bg-purple-700/15 backdrop-blur-xl"
         // onSubmit={handleSubmit}
       >
         {!registered ? (

@@ -3,11 +3,41 @@ import React from "react";
 const Rcard = () => {
   return (
     <>
-      <div className="w-full flex flex-col gap-8 items-center ">
+      <div className="w-full flex flex-col gap-8 items-center mb-12">
         <Card
           name="Tarif Hussain"
           votes="5000"
           perc="100%"
+          img="/images/candidate.svg"
+        />
+        <Card
+          name="Tarif Hussain"
+          votes="5000"
+          perc="50%"
+          img="/images/candidate.svg"
+        />
+        <Card
+          name="Tarif Hussain"
+          votes="5000"
+          perc="50%"
+          img="/images/candidate.svg"
+        />
+        <Card
+          name="Tarif Hussain"
+          votes="5000"
+          perc="50%"
+          img="/images/candidate.svg"
+        />
+        <Card
+          name="Tarif Hussain"
+          votes="5000"
+          perc="50%"
+          img="/images/candidate.svg"
+        />
+        <Card
+          name="Tarif Hussain"
+          votes="5000"
+          perc="50%"
           img="/images/candidate.svg"
         />
         <Card
