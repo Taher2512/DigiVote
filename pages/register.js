@@ -86,55 +86,57 @@ function Register() {
     });
   };
 
+  
+
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-slate-800">
+    <div className="h-screen w-screen flex justify-center items-center overflow-hidden ">
       <div
-        className="flex flex-col justify-center items-center w-1/3"
+        className="flex flex-col justify-center items-center w-1/3  border border-white border-4 rounded-xl p-8 bg-purple-700/15 backdrop-blur-xl"
         // onSubmit={handleSubmit}
       >
         {!registered ? (
           <>
-            <h1 className="text-2xl font-medium text-white">
-              Upload Photo And Enter UID:
+            <h1 className="text-2xl font-medium text-white gilroy-bold">
+              Upload photo and enter UID:
             </h1>
-            <h1 className="self-start text-base font-medium text-white mt-6 mb-2">
+            <h1 className="self-start text-base font-medium text-white mt-6 mb-2 gilroy-light">
               Photo:
             </h1>
             {previewUrl && (
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="w-full h-60 object-cover rounded-md mb-4"
+                className="w-full h-60 object-cover rounded-md mb-4 border"
               />
             )}
             <input
-              type="file"
-              accept="image/*"
-              className="py-2 px-3 rounded-md outline-none w-full text-white border-2 hover:bg-slate-700"
-              onChange={handleImageChange}
-            />
-            <h1 className="self-start text-base font-medium text-white mt-4 mb-2">
+            accept="image/*"
+            onChange={handleImageChange}
+            class="block w-full  text-lg text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400" id="file_input" type="file"/>
+
+
+            <h1 className="self-start text-base font-medium text-white mt-4 mb-2 gilroy-light">
               UID:
             </h1>
             <input
               value={uid}
               onChange={handleUidChange}
-              placeholder="012-345-6789"
-              className="w-full py-2 px-3 rounded-md outline-none"
+              placeholder="eg : 012-345-6789"
+              className="w-full py-2 px-4 rounded-md outline-none gilroy-light"
             />
             {uidExists === 1 && (
-              <p className="self-start text-sm text-red-600 mt-2">
+              <p className="self-start text-sm text-red-600 mt-2 gilory-light">
                 This UID is already registered!
               </p>
             )}
             {uidExists === 0 && (
               <>
-                <h1 className="self-start text-base font-medium text-white mt-4 mb-2">
+                <h1 className="self-start text-base font-medium text-white mt-4 mb-2 gilroy-light">
                   Connect Wallet:
                 </h1>
-                <ConnectWallet theme={"light"} style={{ width: "100%" }} />
+                <ConnectWallet theme={"light"} style={{ width: "100%" }} className="bg-white"/>
                 {address && (
-                  <p className="text-white mt-2 font-medium text-base">
+                  <p className="text-white mt-2 font-medium text-base gilroy-light">
                     Connected as: {address}
                   </p>
                 )}
@@ -145,7 +147,7 @@ function Register() {
               <button
                 // type="submit"
                 onClick={handleVerify}
-                className="w-full mt-4 py-2 px-3 bg-transparent text-white rounded-md border-2 hover:bg-slate-700 flex justify-center items-center"
+                className="w-full mt-4 py-2 px-3 text-xl text-white rounded-md flex justify-center items-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 gilroy-light"
               >
                 {submitting && <Spinner size="sm" className="mr-2" />}
                 {submitting ? "Verifying..." : "Verify Voter ID"}
@@ -156,7 +158,7 @@ function Register() {
               <button
                 // type="submit"
                 onClick={handleRegister}
-                className="w-full mt-4 py-2 px-3 bg-transparent text-white rounded-md border-2 hover:bg-slate-700 flex justify-center items-center"
+                className="w-full mt-4 py-2 px-3 text-white rounded-md flex justify-center items-center text-xl gilroy-light bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800"
               >
                 {submitting && <Spinner size="sm" className="mr-2" />}
                 {submitting ? "Registering..." : "Register"}
@@ -165,12 +167,16 @@ function Register() {
           </>
         ) : (
           <Link href="/vote">
-            <button className="text-white border-2 rounded-md p-3 hover:bg-slate-700">
+            <button className="text-white text-2xl rounded-md px-4 py-3 focus:outline-none  gilroy-light bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800">
               Proceed To Voting {"-->"}
             </button>
           </Link>
         )}
       </div>
+
+      <div className="circle2 absolute top-0 right-20 z-0"></div>
+      <div className="circle2 absolute bottom-20 left-0 z-0"></div>
+      <div className="circle2 absolute left-20 -top-20 z-0"></div>
     </div>
   );
 }

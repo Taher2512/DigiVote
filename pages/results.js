@@ -1,5 +1,5 @@
 import React from 'react'
-import Rcard from '../components/rcard.jsx'
+import Rcard from '../components/Rcard.js'
 
 function results() {
   return (
