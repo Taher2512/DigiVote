@@ -79,14 +79,15 @@ function Register() {
             imageUrl: url,
           };
           await addDoc(collection(db, "users"), data);
+          if (address) {
+            localStorage.setItem("walletAddress", address);
+          }
           setRegistered(true);
           setSubmitting(false);
         });
       }
     });
   };
-
-  
 
   return (
     <div className="h-screen w-screen flex justify-center items-center overflow-hidden ">
@@ -110,10 +111,12 @@ function Register() {
               />
             )}
             <input
-            accept="image/*"
-            onChange={handleImageChange}
-            class="block w-full  text-lg text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400" id="file_input" type="file"/>
-
+              accept="image/*"
+              onChange={handleImageChange}
+              class="block w-full  text-lg text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400"
+              id="file_input"
+              type="file"
+            />
 
             <h1 className="self-start text-base font-medium text-white mt-4 mb-2 gilroy-light">
               UID:
@@ -134,7 +137,11 @@ function Register() {
                 <h1 className="self-start text-base font-medium text-white mt-4 mb-2 gilroy-light">
                   Connect Wallet:
                 </h1>
-                <ConnectWallet theme={"light"} style={{ width: "100%" }} className="bg-white"/>
+                <ConnectWallet
+                  theme={"light"}
+                  style={{ width: "100%" }}
+                  className="bg-white"
+                />
                 {address && (
                   <p className="text-white mt-2 font-medium text-base gilroy-light">
                     Connected as: {address}
