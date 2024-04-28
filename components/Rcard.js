@@ -1,80 +1,82 @@
-import React from "react";
+import React, { useEffect } from "react";
+import ResultCard from "./ResultCard";
+import {
+  VOTING_CONTRACT_ABI,
+  VOTING_CONTRACT_ADDRESS,
+} from "../const/addresses";
+import { useState } from "react";
+import { ethers } from "ethers";
+
+const parties = [
+  {
+    id: 1,
+    name: "Party A",
+    image: "/images/candidate.svg",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
+  },
+  {
+    id: 2,
+    name: "Party B",
+    image: "/images/candidate.svg",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
+  },
+  {
+    id: 3,
+    name: "Party C",
+    image: "/images/candidate.svg",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
+  },
+  {
+    id: 4,
+    name: "Party D",
+    image: "/images/candidate.svg",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
+  },
+  {
+    id: 5,
+    name: "Party E",
+    image: "/images/candidate.svg",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
+  },
+];
 
 const Rcard = () => {
+  const [totalVotes, setTotalVotes] = useState(0);
+
+  const handleGetTotalVotes = async () => {
+    const { ethereum } = window;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const votingContract = new ethers.Contract(
+        VOTING_CONTRACT_ADDRESS,
+        VOTING_CONTRACT_ABI,
+        signer
+      );
+      setTotalVotes((await votingContract.getTotalVotes()).toString());
+    } else {
+      console.log("Ethereum object does not exist!");
+    }
+  };
+
+  useEffect(() => {
+    handleGetTotalVotes();
+  }, []);
+
   return (
-    <>
-      <div className="w-full flex flex-col gap-8 items-center mb-12">
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="100%"
-          img="/images/candidate.svg"
+    <div className="w-full flex flex-col gap-8 items-center mb-12">
+      {parties.map((party) => (
+        <ResultCard
+          key={party.id}
+          id={party.id}
+          name={party.name}
+          img={party.image}
+          totalVotes={totalVotes}
         />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-        <Card
-          name="Tarif Hussain"
-          votes="5000"
-          perc="50%"
-          img="/images/candidate.svg"
-        />
-      </div>
-    </>
+      ))}
+    </div>
   );
 };
-
-const Card = ({ img, name, perc, votes }) => (
-  <div className="w-3/4 py-4 bg-white/30 rounded-full flex items-center px-16 justify-between">
-    <span>
-      <div className="w-24 h-24  rounded-full">
-        <img src={img} className="w-full h-full rounded-full" />
-      </div>
-    </span>
-    <span className="w-1/2">
-      <div className="flex justify-between mb-1">
-        <span className=" text-lg gilroy-light text-white   ">
-          {name}
-        </span>
-        <span className=" text-lg gilroy-light text-white   ">
-          {perc}
-        </span>
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-        <div className="bg-blue-600 h-2.5 rounded-full" style={{width : `${perc}`}}></div>
-      </div>
-    </span>
-    <div className="w-40 h-16 flex items-center justify-center px-4 gilroy-light text-white text-2xl">
-      <p>{votes} Votes</p>
-    </div>
-  </div>
-);
 
 export default Rcard;
