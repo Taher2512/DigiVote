@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import VoteCard from "../components/VoteCard";
 import Footer from "../components/Homepage/Footer"
-import Navbar from "../components/Homepage/foreground/Navbar"
 
 const parties = [
   {
@@ -47,8 +46,17 @@ function Vote() {
 
   return (
     <div className="h-full w-full flex flex-col items-center  px-24">
-      {/* <Navbar/> */}
-      <div className="w-full p-10 mb-10 mt-10 ">
+      <div className="w-1/2 py-4 flex items-center justify-between bg-white/30 mt-8 rounded-xl px-8">
+        <h1 className="gilroy-bold text-white text-4xl">DigiVote.</h1>
+        <div className="flex items-center gap-4">
+          <span className="flex flex-col text-right">
+          <h2 className="gilroy-light text-white text-md">Username</h2>
+          <p className="gilroy-light text-white text-sm">0x01454684685486469816</p>
+          </span>
+          <img src="/images/candidate.svg" width={50}/>
+        </div>
+      </div>
+      <div className="w-full p-10 mb-10 mt-4 ">
         <h1 className="text-4xl gilroy-bold text-white mb-8 text-center ">Cast your Vote Here .</h1>
         <div className="self-start w-full p-10 mb-10 border rounded-xl">
           <h1 className="text-2xl font-medium text-white mb-4 gilroy-light">
