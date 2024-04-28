@@ -43,7 +43,7 @@ function ResultCard({ id, img, name, totalVotes }) {
         <div className="flex justify-between mb-1">
           <span className=" text-lg gilroy-light text-white">{name}</span>
           <span className=" text-lg gilroy-light text-white">
-            {votePercentage == "NaN" ? 0 : votePercentage}%
+            {votePercentage == NaN ? 0 : votePercentage}%
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
