@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { app, db } from "../const/firebase/config";
-import { addDoc, collection,  query } from "firebase/firestore";
-import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
+import { addDoc, collection, query } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FormRepeater = () => {
-  const [fields, setFields] = useState([{ image: "", name: "" ,desc:""}]);
+  const [fields, setFields] = useState([{ image: "", name: "", desc: "" }]);
   const [login, setlogin] = useState(false);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -11,18 +14,16 @@ const FormRepeater = () => {
     const values = [...fields];
     if (event.target.name === "image") {
       values[index].image = event.target.files[0];
-    } else if(event.target.name === "name") {
+    } else if (event.target.name === "name") {
       values[index][event.target.name] = event.target.value;
-    }
-    else{
-      values[index]["desc"]=event.target.value
-
+    } else {
+      values[index]["desc"] = event.target.value;
     }
     setFields(values);
   };
 
   const handleAddField = () => {
-    setFields([...fields, { image: "", name: "",desc:"" }]);
+    setFields([...fields, { image: "", name: "", desc: "" }]);
     console.log(fields);
   };
 
@@ -40,15 +41,19 @@ const FormRepeater = () => {
       console.log("Image uploaded successfully");
 
       await getDownloadURL(d.ref).then(async (url) => {
-        const id=Math.floor(1000 + (Math.random() * 9000));
+        const id = Math.floor(1000 + Math.random() * 9000);
         let data = {
           name: field.name,
           imageUrl: url,
           votes: 0,
           id,
-          desc:field.desc
+          desc: field.desc,
         };
         await addDoc(collection(db, "parties"), data);
+        toast.success("Party has been added!", {
+          position: "top-right",
+          autoClose: 5000,
+        });
       });
     });
   };
@@ -60,16 +65,11 @@ const FormRepeater = () => {
     }
   };
   return (
-    <div
-      className="w-screen h-screen px-40 flex flex-col gap-8 py-36 items-center"
-    >
-      <h1 className="gilroy-bold text-white text-4xl ">
-        Add Parties
-      </h1>
+    <div className="w-screen h-screen px-40 flex flex-col gap-8 py-36 items-center">
+      <ToastContainer position="top-right" autoClose={5000} />
+      <h1 className="gilroy-bold text-white text-4xl ">Add Parties</h1>
       {!login && (
-        <div
-          className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15"
-        >
+        <div className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15">
           <h1 className="text-white gilroy-light text-2xl">Login </h1>
           <input
             className="w-full h-10 rounded-full px-4 gilroy-light bg-white/30 text-white focus:outline-none"
@@ -95,12 +95,8 @@ const FormRepeater = () => {
         </div>
       )}
       {login && (
-        <div
-        className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15"
-        >
-          <div
-            className="flex flex-col items-center justify-center gap-6"
-          >
+        <div className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15">
+          <div className="flex flex-col items-center justify-center gap-6">
             {fields.map((field, index) => (
               <div
                 className="flex gap-4 items-center justify-between"
@@ -135,7 +131,6 @@ const FormRepeater = () => {
                     name="Description"
                     placeholder="Description"
                     value={field.desc}
-                    
                     onChange={(e) => handleChange(index, e)}
                     className="w-full gilroy-light px-4 focus: outline-none py-3 rounded-xl bg-white/30 text-white"
                   />
