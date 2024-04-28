@@ -27,7 +27,7 @@ const parties = [
 
 function Vote() {
   const [walletAddress, setWalletAddress] = useState("");
-  const [voteCasted, setVoteCasted] = useState(true);
+  const [voteCasted, setVoteCasted] = useState(false);
 
   useEffect(() => {
     const address = localStorage.getItem("walletAddress");
