@@ -5,6 +5,8 @@ import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Spinner } from "@nextui-org/react";
 import Link from "next/link";
+import Footer from "../components/Homepage/Footer"
+
 
 function Register() {
   const [image, setImage] = useState(null);
@@ -14,6 +16,7 @@ function Register() {
   const [submitting, setSubmitting] = useState(false);
   const [registered, setRegistered] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const storage = getStorage(app);
   const address = useAddress();
@@ -90,9 +93,9 @@ function Register() {
   };
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center overflow-hidden ">
+    <div className=" w-screen flex flex-col justify-center items-center">
       <div
-        className="flex flex-col justify-center items-center w-1/3  border-white border-4 rounded-xl p-8 bg-purple-700/15 backdrop-blur-xl"
+        className="flex flex-col justify-center items-center w-1/3  border-white border-4 rounded-xl p-8 bg-purple-700/15 backdrop-blur-xl mt-24 mb-40"
         // onSubmit={handleSubmit}
       >
         {!registered ? (
@@ -125,8 +128,17 @@ function Register() {
               value={uid}
               onChange={handleUidChange}
               placeholder="eg : 012-345-6789"
-              className="w-full py-2 px-4 rounded-md outline-none gilroy-light"
+              className={`w-full py-2 px-4 bg-white/20 text-white rounded-md outline-none gilroy-light ${verified ? 'border-2 border-green-500' : ''}`}
             />
+            {verified && (
+              <span className="w-full mt-1 flex gap-1 justify-end px-4">
+                <img src="/images/verified.svg" className="w-4"></img>
+                <p className="gilroy-light text-green-500 text-xs">
+                  UID Verified
+                </p>
+              </span>
+            )}
+
             {uidExists === 1 && (
               <p className="self-start text-sm text-red-600 mt-2 gilory-light">
                 This UID is already registered!
@@ -143,9 +155,19 @@ function Register() {
                   className="bg-white"
                 />
                 {address && (
-                  <p className="text-white mt-2 font-medium text-base gilroy-light">
-                    Connected as: {address}
-                  </p>
+                  <>
+                    <p className="text-white mt-2 font-medium text-base gilroy-light">
+                      Connected as: {address}
+                    </p>
+                    <div className="w-full py-4 bg-yellow-500 rounded-md flex px-4 gap-4">
+                      <img src="/images/warning.svg"></img>
+                      <p className="gilroy-light text-sm">
+                        Please note down the wallet address, otherwise you won't
+                        be able to vote if the device of registration and voting
+                        changes or if some other error occurs.
+                      </p>
+                    </div>
+                  </>
                 )}
               </>
             )}
@@ -162,14 +184,16 @@ function Register() {
             )}
 
             {verified && (
-              <button
-                // type="submit"
-                onClick={handleRegister}
-                className="w-full mt-4 py-2 px-3 text-white rounded-md flex justify-center items-center text-xl gilroy-light bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800"
-              >
-                {submitting && <Spinner size="sm" className="mr-2" />}
-                {submitting ? "Registering..." : "Register"}
-              </button>
+              <>
+                <button
+                  // type="submit"
+                  onClick={handleRegister}
+                  className="w-full mt-4 py-2 px-3 text-white rounded-md flex justify-center items-center text-xl gilroy-light bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800"
+                >
+                  {submitting && <Spinner size="sm" className="mr-2" />}
+                  {submitting ? "Registering..." : "Register"}
+                </button>
+              </>
             )}
           </>
         ) : (
@@ -181,9 +205,11 @@ function Register() {
         )}
       </div>
 
-      <div className="circle2 absolute top-0 right-20 z-0"></div>
+      {/* <div className="circle2 absolute top-0 right-20 z-0"></div>
       <div className="circle2 absolute bottom-20 left-0 z-0"></div>
-      <div className="circle2 absolute left-20 -top-20 z-0"></div>
+      <div className="circle2 absolute left-20 -top-20 z-0"></div> */}
+        
+      <Footer/>
     </div>
   );
 }

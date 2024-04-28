@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 // import * as fcl from "@onflow/fcl";
@@ -19,37 +20,26 @@ function Navbar() {
         </a>
 
         <span className="flex items-center justify-center gap-6">
+          <Link href={"/register"}>
           <button
             type="button"
-            onClick={() => logIn()}
+            
             className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           >
             Register
           </button>
-
+          </Link>
+          <Link href={"/vote"}>
           <button
             type="button"
-            onClick={() => {
-              router.push("/demo");
-            }}
+
             className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center"
           >
             Vote
           </button>
+          </Link>
 
-          {user.loggedIn && (
-            <button
-              type="button"
-              onClick={async () => {
-                fcl.unauthenticate;
-                await localStorage.setItem("Vault", "");
-                setUser("");
-              }}
-              className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-            >
-              Logout
-            </button>
-          )}
+          
         </span>
       </div>
     </>
