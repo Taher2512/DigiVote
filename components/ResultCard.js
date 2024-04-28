@@ -21,8 +21,16 @@ function ResultCard({ id, img, name, totalVotes }) {
         VOTING_CONTRACT_ABI,
         signer
       );
-      setVotes((await votingContract.getVotes(id)).toString());
-      setVotePercentage((votes / totalVotes) * 100);
+      try {
+        const voteCount = await votingContract.getVotes(id);
+        const voteCountString = voteCount.toString();
+        setVotes(voteCountString);
+        const percentage =
+          totalVotes > 0 ? (parseInt(voteCountString) / totalVotes) * 100 : 0;
+        setVotePercentage(percentage); // To handle floating point precision
+      } catch (error) {
+        console.error("Failed to fetch votes:", error);
+      }
     } else {
       console.log("Ethereum object does not exist!");
     }
@@ -30,7 +38,7 @@ function ResultCard({ id, img, name, totalVotes }) {
 
   useEffect(() => {
     handleGetPartyVotes();
-  }, []);
+  }, [id, totalVotes]);
 
   return (
     <div className="w-3/4 py-4 bg-white/30 rounded-full flex items-center px-16 justify-between">
@@ -43,7 +51,7 @@ function ResultCard({ id, img, name, totalVotes }) {
         <div className="flex justify-between mb-1">
           <span className=" text-lg gilroy-light text-white">{name}</span>
           <span className=" text-lg gilroy-light text-white">
-            {votePercentage == NaN ? 0 : votePercentage}%
+            {isNaN(votePercentage) ? 0 : votePercentage}%
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">

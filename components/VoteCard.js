@@ -44,11 +44,13 @@ function VoteCard({ party, setVoteCasted }) {
         await transactionResponse.wait();
         setTransactionInProgress(false);
         onClose();
-        setVoteCasted(true);
         toast.success("Your vote has been casted!", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
         });
+        setTimeout(() => {
+          setVoteCasted(true);
+        }, 3000);
       } catch (error) {
         console.error("Transaction failed", error);
         setTransactionInProgress(false);
@@ -56,7 +58,7 @@ function VoteCard({ party, setVoteCasted }) {
         setVoteCasted(false);
         toast.error("You have already voted!", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
         });
       }
     } else {
@@ -66,7 +68,7 @@ function VoteCard({ party, setVoteCasted }) {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={5000} />
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="flex  border items-center justify-between py-4 hover:bg-purple-900 rounded-full cursor-pointer w-full px-10 bg-white/20 backdrop-blur-md ">
         <img
           src={party.image}

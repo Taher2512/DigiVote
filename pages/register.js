@@ -1,4 +1,4 @@
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet, metamaskWallet, useAddress } from "@thirdweb-dev/react";
 import React, { useState } from "react";
 import { app, db } from "../const/firebase/config";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
