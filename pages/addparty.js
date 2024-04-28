@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { app, db } from "../const/firebase/config";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { addDoc, collection,  query } from "firebase/firestore";
+import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
 const FormRepeater = () => {
-  const [fields, setFields] = useState([{ image: "", name: "" }]);
-  const [image, setimage] = useState([]);
+  const [fields, setFields] = useState([{ image: "", name: "" ,desc:""}]);
   const [login, setlogin] = useState(false);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -12,14 +11,18 @@ const FormRepeater = () => {
     const values = [...fields];
     if (event.target.name === "image") {
       values[index].image = event.target.files[0];
-    } else {
+    } else if(event.target.name === "name") {
       values[index][event.target.name] = event.target.value;
+    }
+    else{
+      values[index]["desc"]=event.target.value
+
     }
     setFields(values);
   };
 
   const handleAddField = () => {
-    setFields([...fields, { image: "", name: "" }]);
+    setFields([...fields, { image: "", name: "",desc:"" }]);
     console.log(fields);
   };
 
@@ -33,13 +36,17 @@ const FormRepeater = () => {
     const q = query(collection(db, "parties"));
     fields.map(async (field) => {
       const storageRef = ref(storage, `parties/${field.name}`);
-      const d = await uploadBytes(storageRef, image);
+      const d = await uploadBytes(storageRef, field.image);
       console.log("Image uploaded successfully");
+
       await getDownloadURL(d.ref).then(async (url) => {
+        const id=Math.floor(1000 + (Math.random() * 9000));
         let data = {
           name: field.name,
           imageUrl: url,
           votes: 0,
+          id,
+          desc:field.desc
         };
         await addDoc(collection(db, "parties"), data);
       });
@@ -120,6 +127,15 @@ const FormRepeater = () => {
                     name="name"
                     placeholder="Name"
                     value={field.name}
+                    onChange={(e) => handleChange(index, e)}
+                    className="w-full gilroy-light px-4 focus: outline-none py-3 rounded-xl bg-white/30 text-white"
+                  />
+                  <input
+                    type="text"
+                    name="Description"
+                    placeholder="Description"
+                    value={field.desc}
+                    
                     onChange={(e) => handleChange(index, e)}
                     className="w-full gilroy-light px-4 focus: outline-none py-3 rounded-xl bg-white/30 text-white"
                   />
