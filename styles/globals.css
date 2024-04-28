@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-color: #1d84f1 #000;
+}
+
 @font-face {
   font-family: "Gilroy-Bold";
   src: url("../public/fonts/Gilroy-ExtraBold.otf");
