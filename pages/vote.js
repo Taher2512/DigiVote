@@ -49,10 +49,8 @@ function Vote() {
       <div className="w-1/2 py-4 flex items-center justify-between bg-white/30 mt-8 rounded-xl px-8">
         <h1 className="gilroy-bold text-white text-4xl">DigiVote.</h1>
         <div className="flex items-center gap-4">
-          <span className="flex flex-col text-right">
-          <h2 className="gilroy-light text-white text-md">Username</h2>
-          <p className="gilroy-light text-white text-sm">0x01454684685486469816</p>
-          </span>
+          <p className="gilroy-light text-white text-sm text-ellipsis">0x01454684685486469816</p>
+          
           <img src="/images/candidate.svg" width={50}/>
         </div>
       </div>

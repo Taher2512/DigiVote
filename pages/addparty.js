@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { app, db } from "../const/firebase/config";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
-import {getStorage,ref,uploadBytes,getDownloadURL} from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const FormRepeater = () => {
-  const [fields, setFields] = useState([{ image: '', name: '' }]);
- const [image, setimage] = useState([])
- const [login, setlogin] = useState(false)
- const [email, setemail] = useState('')
- const [password, setpassword] = useState('')
+  const [fields, setFields] = useState([{ image: "", name: "" }]);
+  const [image, setimage] = useState([]);
+  const [login, setlogin] = useState(false);
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
   const handleChange = (index, event) => {
     const values = [...fields];
-    if (event.target.name === 'image') {
+    if (event.target.name === "image") {
       values[index].image = event.target.files[0];
-      
     } else {
       values[index][event.target.name] = event.target.value;
     }
@@ -20,8 +19,8 @@ const FormRepeater = () => {
   };
 
   const handleAddField = () => {
-    setFields([...fields, { image: '', name: '' }]);
-    console.log(fields)
+    setFields([...fields, { image: "", name: "" }]);
+    console.log(fields);
   };
 
   const handleRemoveField = (index) => {
@@ -29,84 +28,129 @@ const FormRepeater = () => {
     values.splice(index, 1);
     setFields(values);
   };
-const submit=async()=>{
+  const submit = async () => {
     const storage = getStorage(app);
     const q = query(collection(db, "parties"));
-         fields.map(async(field)=>{
-            const storageRef = ref(storage, `parties/${field.name}`);
-            const d=await uploadBytes(storageRef, image);
-            console.log("Image uploaded successfully");
-           await getDownloadURL(d.ref).then(async(url) => {
-            let data={
-              name:field.name,
-                imageUrl:url,
-                votes:0
-            }
-            await  addDoc(collection(db, "parties"), data);
-
-           })
-         })
+    fields.map(async (field) => {
+      const storageRef = ref(storage, `parties/${field.name}`);
+      const d = await uploadBytes(storageRef, image);
+      console.log("Image uploaded successfully");
+      await getDownloadURL(d.ref).then(async (url) => {
+        let data = {
+          name: field.name,
+          imageUrl: url,
+          votes: 0,
+        };
+        await addDoc(collection(db, "parties"), data);
+      });
+    });
+  };
+  const submitLogin = () => {
+    if (email === "mustafachaiwala2003@gmail.com" && password == "123abc") {
+      setlogin(true);
+    } else {
+      alert("Invalid Credentials");
     }
-    const submitLogin=()=>{
-        if(email==='mustafachaiwala2003@gmail.com' && password=='123abc'){
-            setlogin(true)
-        }
-        else{
-            alert("Invalid Credentials")
-        }
-    }
+  };
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', minHeight: '100vh',backgroundColor:"#1e293b" ,flexDirection:"column"}}>
-    <h1 style={{color:"white",fontSize:40,fontWeight:"bold"}}>Add Parties</h1>
-    {!login&&<div style={{padding:50,backgroundColor:'white',borderRadius:20,gap:20,display:'flex',flexDirection:"column",alignItems:"center"}}>
-       <h1 style={{fontWeight:"bold",fontSize:30}}>Login </h1>
-       <input style={{padding:10,marginBottom:20}} type="email" placeholder="Enter Email" value={email}  onChange={e=>setemail(e.target.value)}/>
-       <input style={{padding:10,marginBottom:20}} type="password" placeholder="Enter Password"  value={password} onChange={e=>setpassword(e.target.value)} />
-       <button  style={{width:"100%",backgroundColor:"#1e293b",padding:10,borderRadius:10,color:'white',fontWeight:'bold'}} type="button" onClick={submitLogin}>
-          Submit
-        </button>
-    </div>}
-    {login&&<div style={{padding:50,backgroundColor:'white',borderRadius:20,gap:20,display:'flex',flexDirection:"column"}}>
-    <div style={{alignItems:"center",justifyContent:"center",display:'flex',flexDirection:"column",gap:10}} >
-        {fields.map((field, index) => (
-          <div style={{display:'flex',flexDirection:"row"}} key={index}>
-            <input
-               placeholder='Choose Party Logo'
-              type="file"
-              accept="image/*"
-              name="image"
-              onChange={(e) => handleChange(index, e)}
-            />
-            <div style={{flexDirection:"row",display:'flex',gap:20}}>
-            {field.image && (
-              <img style={{height:80,width:120,borderRadius:10}} src={URL.createObjectURL(field.image)} alt="Preview"  />
-            )}
-            <input
-            
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={field.name}
-              onChange={(e) => handleChange(index, e)}
-              style={{width:"100%",paddingRight:40,paddingLeft:40,padding:10,height:50,color:'black',marginRight:20}}
-            />
-            </div>
-            
-            <button style={{backgroundColor:"red",padding:10,borderRadius:10,color:"white",fontWeight:'bold',marginBottom:10,height:50}} type="button" onClick={() => handleRemoveField(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
+    <div
+      className="w-screen h-screen px-40 flex flex-col gap-8 py-36 items-center"
+    >
+      <h1 className="gilroy-bold text-white text-4xl ">
+        Add Parties
+      </h1>
+      {!login && (
+        <div
+          className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15"
+        >
+          <h1 className="text-white gilroy-light text-2xl">Login </h1>
+          <input
+            className="w-full h-10 rounded-full px-4 gilroy-light bg-white/30 text-white focus:outline-none"
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
+          />
+          <input
+            className="w-full h-10 rounded-full px-4 gilroy-light bg-white/30 text-white focus:outline-none"
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setpassword(e.target.value)}
+          />
+          <button
+            className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold"
+            type="button"
+            onClick={submitLogin}
+          >
+            Submit
+          </button>
         </div>
-        <button style={{width:"100%",backgroundColor:"#1e293b",padding:10,borderRadius:10,color:'white',fontWeight:'bold'}} type="button" onClick={handleAddField}>
-          Add Field
-        </button>
-        <button  style={{width:"100%",backgroundColor:"#1e293b",padding:10,borderRadius:10,color:'white',fontWeight:'bold'}} type="button" onClick={submit}>
-          Submit
-        </button>
-    </div>}
-    
-     
+      )}
+      {login && (
+        <div
+        className="w-2/3  flex flex-col items-center gap-4 px-20 rounded-xl py-8 border-4 border-purple-700 bg-purple-900/15"
+        >
+          <div
+            className="flex flex-col items-center justify-center gap-6"
+          >
+            {fields.map((field, index) => (
+              <div
+                className="flex gap-4 items-center justify-between"
+                key={index}
+              >
+                <input
+                  className="block w-34  text-lg gilroy-light text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400"
+                  placeholder="Choose Party Logo"
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  onChange={(e) => handleChange(index, e)}
+                />
+                <div className="flex gap-4 items-center">
+                  {field.image && (
+                    <img
+                      className="w-20 h-16 rounded-full"
+                      src={URL.createObjectURL(field.image)}
+                      alt="Preview"
+                    />
+                  )}
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={field.name}
+                    onChange={(e) => handleChange(index, e)}
+                    className="w-full gilroy-light px-4 focus: outline-none py-3 rounded-xl bg-white/30 text-white"
+                  />
+                </div>
+
+                <button
+                  className="py-2 px-4 text-md text-white rounded-md flex justify-center items-center bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 gilroy-light"
+                  type="button"
+                  onClick={() => handleRemoveField(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold w-full"
+            type="button"
+            onClick={handleAddField}
+          >
+            Add Field
+          </button>
+          <button
+            className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold w-full"
+            type="button"
+            onClick={submit}
+          >
+            Submit
+          </button>
+        </div>
+      )}
     </div>
   );
 };

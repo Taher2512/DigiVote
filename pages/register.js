@@ -113,7 +113,7 @@ function Register() {
             <input
               accept="image/*"
               onChange={handleImageChange}
-              class="block w-full  text-lg text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400"
+              className="block w-full  text-lg text-white rounded-lg cursor-pointer bg-white/10   focus:outline-none dark:placeholder-gray-400"
               id="file_input"
               type="file"
             />
