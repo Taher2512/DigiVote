@@ -4,8 +4,10 @@ import Footer from "../components/Homepage/Footer";
 import Link from "next/link";
 import { app, db } from "../const/firebase/config";
 import {  collection, getDocs, query } from "firebase/firestore";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 
 function Vote() {
+  const address=useAddress()
   const [walletAddress, setWalletAddress] = useState("");
   const [voteCasted, setVoteCasted] = useState(false);
   const [parties, setparties] = useState([])
@@ -17,9 +19,6 @@ function Vote() {
     getParties()
   }, []);
 
-  const handleChange = (event) => {
-    setWalletAddress(event.target.value);
-  };
   const getParties=async()=>{
     const q = query(collection(db, "parties"));
     const querySnapshot = await getDocs(q);
@@ -40,7 +39,7 @@ function Vote() {
             </Link>
             <div className="flex items-center gap-4">
               <p className="gilroy-light text-white text-sm text-ellipsis">
-                {walletAddress}
+                {!walletAddress?address:walletAddress}
               </p>
 
               <img src="/images/candidate.svg" width={50} />
@@ -55,19 +54,12 @@ function Vote() {
                 Your Wallet Address:
               </h1>
               <span className="flex gap-4">
-                <input
-                  type="text"
-                  placeholder="Enter your wallet address..."
-                  value={walletAddress}
-                  onChange={handleChange}
-                  className="text-white bg-white/15 hover:bg-slate-700 text-xl py-3 px-8 rounded-full outline-none w-full gilroy-light "
-                />
-                <button
-                  type="button"
-                  className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold"
-                >
-                  Connect
-                </button>
+                
+                {!walletAddress&&<ConnectWallet
+                  theme={"dark"}
+                  style={{ width: "50%" }}
+                  className="bg-white"
+                />}
               </span>
             </div>
             <div className="flex flex-wrap justify-start items-center w-full gap-4 ">
@@ -76,7 +68,7 @@ function Vote() {
                   key={party.name}
                   party={party}
                   setVoteCasted={setVoteCasted}
-                  walletAddress={walletAddress} 
+                  walletAddress={!walletAddress?address:walletAddress} 
                 />
               ))}
             </div>
