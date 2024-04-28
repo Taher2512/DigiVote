@@ -71,7 +71,7 @@ function Vote() {
           />
           <button
             type="button"
-            className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold"
+            className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-bold rounded-full text-xl px-10 py-2.5 text-center gilroy-bold"
           >
             Connect
           </button>
