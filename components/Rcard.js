@@ -6,43 +6,21 @@ import {
 } from "../const/addresses";
 import { useState } from "react";
 import { ethers } from "ethers";
-
-const parties = [
-  {
-    id: 1,
-    name: "Party A",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 2,
-    name: "Party B",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 3,
-    name: "Party C",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 4,
-    name: "Party D",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 5,
-    name: "Party E",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-];
+import { app, db } from "../const/firebase/config";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 
 const Rcard = () => {
   const [totalVotes, setTotalVotes] = useState(0);
-
+  const [parties, setparties] = useState([])
+  const getParties=async()=>{
+    const q = query(collection(db, "parties"));
+    const querySnapshot = await getDocs(q);
+    let data=[]
+    querySnapshot.forEach((doc) => {
+      data.push({id:doc.data().id,name:doc.data().name,image:doc.data().imageUrl,desc:'Hello please vote me'})
+    });
+    setparties(data)
+  }
   const handleGetTotalVotes = async () => {
     const { ethereum } = window;
 
@@ -62,6 +40,7 @@ const Rcard = () => {
 
   useEffect(() => {
     handleGetTotalVotes();
+    getParties()
   }, []);
 
   return (

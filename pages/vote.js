@@ -2,54 +2,33 @@ import React, { useState, useEffect } from "react";
 import VoteCard from "../components/VoteCard";
 import Footer from "../components/Homepage/Footer";
 import Link from "next/link";
-
-const parties = [
-  {
-    id: 1,
-    name: "Party A",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 2,
-    name: "Party B",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 3,
-    name: "Party C",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 4,
-    name: "Party D",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-  {
-    id: 5,
-    name: "Party E",
-    image: "/images/candidate.svg",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus",
-  },
-];
+import { app, db } from "../const/firebase/config";
+import {  collection, getDocs, query } from "firebase/firestore";
 
 function Vote() {
   const [walletAddress, setWalletAddress] = useState("");
   const [voteCasted, setVoteCasted] = useState(false);
-
+  const [parties, setparties] = useState([])
   useEffect(() => {
     const address = localStorage.getItem("walletAddress");
     if (address) {
       setWalletAddress(address);
     }
+    getParties()
   }, []);
 
   const handleChange = (event) => {
     setWalletAddress(event.target.value);
   };
+  const getParties=async()=>{
+    const q = query(collection(db, "parties"));
+    const querySnapshot = await getDocs(q);
+    let data=[]
+    querySnapshot.forEach((doc) => {
+      data.push({id:doc.data().id,name:doc.data().name,image:doc.data().imageUrl,desc:doc.data().desc})
+    });
+    setparties(data)
+  }
 
   return (
     <div className="h-full w-full flex flex-col items-center  px-24">
@@ -95,6 +74,7 @@ function Vote() {
                   key={party.name}
                   party={party}
                   setVoteCasted={setVoteCasted}
+                  walletAddress={walletAddress} 
                 />
               ))}
             </div>

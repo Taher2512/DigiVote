@@ -15,15 +15,32 @@ import {
   VOTING_CONTRACT_ABI,
   VOTING_CONTRACT_ADDRESS,
 } from "../const/addresses";
+import { app, db } from "../const/firebase/config";
+import {  collection, getDocs, query } from "firebase/firestore";
 
-function VoteCard({ party, setVoteCasted }) {
+function VoteCard({ party, setVoteCasted,walletAddress }) {
   const [selectedParty, setSelectedParty] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [transactionInProgress, setTransactionInProgress] = useState(false);
-
-  const handleOpen = () => {
+  console.log(party.image);
+  const handleOpen =async () => {
+    const q = query(collection(db, "users"));
+    const querySnapshot = await getDocs(q);
+    let found=false
+    querySnapshot.forEach((doc) => {
+      if(doc.data().address===walletAddress){
+        found=true
+      }
+    });
+    if(!found){
+      alert("You are not registered to vote")
+      return
+    }
+    else{
     setSelectedParty(party.name);
     onOpen();
+    }
+    
   };
 
   const handleVote = async () => {
