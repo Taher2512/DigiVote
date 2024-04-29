@@ -31,8 +31,8 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Contact
+                <a href={"/addparty"} className="hover:underline">
+                  Add Party
                 </a>
               </li>
             </ul>

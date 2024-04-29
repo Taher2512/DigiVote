@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { app, db } from "../const/firebase/config";
 import { addDoc, collection,  query } from "firebase/firestore";
 import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FormRepeater = () => {
   const [fields, setFields] = useState([{ image: "", name: "" ,desc:""}]);
   const [login, setlogin] = useState(false);
@@ -49,11 +52,15 @@ const FormRepeater = () => {
           desc:field.desc
         };
         await addDoc(collection(db, "parties"), data);
+        toast.success("Party has been added!", {
+          position: "top-right",
+          autoClose: 5000,
+        });
       });
     });
   };
   const submitLogin = () => {
-    if (email === "mustafachaiwala2003@gmail.com" && password == "123abc") {
+    if (email === "abc123@gmail.com" && password == "123abc") {
       setlogin(true);
     } else {
       alert("Invalid Credentials");
@@ -63,6 +70,7 @@ const FormRepeater = () => {
     <div
       className="w-screen h-screen px-40 flex flex-col gap-8 py-36 items-center"
     >
+      <ToastContainer position="top-right" autoClose={5000} />
       <h1 className="gilroy-bold text-white text-4xl ">
         Add Parties
       </h1>
