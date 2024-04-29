@@ -1,5 +1,5 @@
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { PolygonZkevmCardonaTestnet } from "@thirdweb-dev/chains";
+import { PolygonAmoyTestnet } from "@thirdweb-dev/chains";
 import "../styles/globals.css";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <NextUIProvider>
       <ThirdwebProvider
-        activeChain={PolygonZkevmCardonaTestnet}
+        activeChain={PolygonAmoyTestnet}
         clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
       >
         <Component {...pageProps} />
